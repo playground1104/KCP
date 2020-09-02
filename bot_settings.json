@@ -1,0 +1,9 @@
+{
+    "bot_name": "",
+    "stable_token": "",
+    "canary_token": "",
+    "default_prefix": "!",
+    "debug": false,
+    "whitelist": [288302173912170497, 621575268250943490],
+    "presence": ["discord.py 템플릿 by eunwoo1104", "https://github.com/eunwoo1104"]
+}
