@@ -1,4 +1,5 @@
 import discord
+import asyncio
 from discord.ext import commands
 from kspconfig import kspconfig
 
@@ -20,8 +21,14 @@ class Basic(commands.Cog):
     async def check_craft(self, ctx: commands.Context):
         msg = ctx.message
         if len(ctx.message.attachments) == 0 or not ctx.message.attachments[0].filename.endswith(".craft"):
-            msg = await self.bot.wait_for("message", timeout=30, check=lambda m: m.author.id == ctx.author.id and len(m.attachments) != 0)
-        craft = msg.attachments[0]
+            try:
+                await ctx.send("30초 안에 기체 파일을 보내주세요.")
+                msg = await self.bot.wait_for("message", timeout=30, check=lambda m: m.author.id == ctx.author.id and len(m.attachments) != 0)
+                if not msg.attachments[0].filename.endswith(".craft"):
+                    return await ctx.send("`.craft` 파일만 올려야 합니다. 다시 명령어를 실행해주세요.")
+            except asyncio.TimeoutError:
+                return await ctx.send("시간 만료, 다시 명령어를 실행해주세요.")
+        craft = [x for x in msg.attachments if x.filename.endswith(".craft")][0]
         craft_content = (await craft.read()).decode("UTF-8")
 
         blacklist = ["bahaECMJammer", "AMRAAM.EMP", "BD1x1slopeArmor", "BD2x1slopeArmor", "BD1x1panelArmor",
