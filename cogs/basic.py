@@ -1,7 +1,6 @@
 import discord
 from discord.ext import commands
-from utils import kspconfig
-
+from kspconfig import kspconfig
 
 class Basic(commands.Cog):
     """
