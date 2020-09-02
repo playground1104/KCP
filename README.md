@@ -11,6 +11,7 @@
 (예: help.py, class Help(commands.Cog) (O) / test.py, class Example(commands.Cog) (X))
 ## 필요한 것들
 - discord.py 1.3.4+
+- kspconfig 1.3+
 ## 코드에 문제가 있나요?
 자유롭게 Pull Request나 Issue를 넣어주세요.  
 또는 디스코드: eunwoo1104#9600
