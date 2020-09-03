@@ -11,7 +11,7 @@ class Help(commands.Cog):
 
     @commands.command(name="도움", aliases=["도움말", "help"])
     async def help(self, ctx: commands.Context):
-        base_embed = discord.Embed(title="명령어 리스트", description=f"프리픽스: `{ctx.prefix}`", color=discord.Color.from_rgb(225, 225, 225))
+        base_embed = discord.Embed(title="명령어 리스트 | Command List", description=f"프리픽스 | Prefix: `{ctx.prefix}`", color=discord.Color.from_rgb(225, 225, 225))
         cogs = [(x, y.get_commands()) for x, y in self.bot.cogs.items()]
         for x in cogs:
             if not bool(x[1]):
