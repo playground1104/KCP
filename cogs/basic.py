@@ -48,18 +48,31 @@ class Basic(commands.Cog):
             try:
                 f = self.partdb[e]
             except KeyError:
-                return await ctx.send(f"블랙리스트 감지됨-취소\n해당 파츠: `{e}`")
+                embed = discord.Embed(title="KCP 기체 검수 시스템", color=0xff0000)
+                embed.add_field(name="블랙리스트 감지됨", value=e)
+                embed.set_footer(text="오류 제보: Penta#1155")
+                return await ctx.send(embed=embed)
             ap += f['point']
             g = 0
             for h in d["MODULE"]:
                 if h["name"] == "HitpointTracker":
                     g = int(h["Armor"])
-            if g > f['armorthickness']:
-                return await ctx.send(f"아머 두께 번경 감지됨-취소")
+            t = f['armorthickness']
+            if g > t:
+                embed = discord.Embed(title="KCP 기체 검수 시스템", color=0xff0000)
+                embed.add_field(name="장갑 두께 변경 감지됨", value=f"{e}: {g} > {t}")
+                embed.set_footer(text="오류 제보: Penta#1155")
+                return await ctx.send(embed=embed)
         if ap <= 17.1:
-            return await ctx.send(f"문제가 없습니다.\n파츠 카운트: {len(part_list)}개")
+            embed = discord.Embed(title="KCP 기체 검수 시스템", color=0x00ff00)
+            embed.add_field(name="문제가 없습니다", value=f"{len(part_list)}개의 부품")
+            embed.set_footer(text="오류 제보: Penta#1155")
+            return await ctx.send(embed=embed)
         else:
-            return await ctx.send(f"무장 포인트를 초과했습니다. ({ap}점)\n파츠 카운트: {len(part_list)}개")
+            embed = discord.Embed(title="KCP 기체 검수 시스템", color=0xff0000)
+            embed.add_field(name="무장 포인트 초과", value=f"{ap}점 > 17점")
+            embed.set_footer(text="오류 제보: Penta#1155")
+            return await ctx.send(embed=embed)
 
     """
     @commands.command(name="check")
