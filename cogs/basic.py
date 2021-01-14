@@ -54,7 +54,11 @@ class Basic(commands.Cog):
                 return await ctx.send(embed=embed)
             ap += f['point']
             g = 0
-            for h in d["MODULE"]:
+            try:
+                m = d["MODULE"]
+            except KeyError:
+                m = []
+            for h in m:
                 if h["name"] == "HitpointTracker":
                     g = int(h["Armor"])
             t = f['armorthickness']
