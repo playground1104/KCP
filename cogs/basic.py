@@ -98,9 +98,9 @@ class Basic(commands.Cog):
             embed.add_field(name="무장 점수 정상", value=f"{ap}점")
 
         if berror_size:
-            embed.add_field(name="크기 초과", value=f"{size_width} x {size_height} x {size_length}")
+            embed.add_field(name="크기 초과", value=f"약 {size_width:.2f} x {size_height:.2f} x {size_length:.2f}m")
         else:
-            embed.add_field(name="크기 정상", value=f"{size_width} x {size_height} x {size_length}")
+            embed.add_field(name="크기 정상", value=f"약 {size_width:.2f} x {size_height:.2f} x {size_length:.2f}m")
 
         if not (berror_ap or berror_armorthickness or berror_blacklist or berror_size):
             embed.add_field(name="문제가 없습니다", value=f"{len(part_list)}부품")
