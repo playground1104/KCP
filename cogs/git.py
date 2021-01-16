@@ -34,7 +34,7 @@ class Git(commands.Cog):
     @commands.command(name="reload_file")
     async def check_craft(self, ctx: commands.Context, *, arg):
         async with aiohttp.ClientSession() as session:
-            async with session.get('https://raw.githubusercontent.com/eunwoo1104/KCP/master/' + arg) as response:
+            async with session.post('https://raw.githubusercontent.com/eunwoo1104/KCP/master/' + arg) as response:
                 if response.status == 200 or response.status == 304:
                     data = await response.text(encoding="UTF-8")
                     with open(arg, "w", encoding="UTF-8") as f:
