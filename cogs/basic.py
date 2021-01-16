@@ -80,7 +80,7 @@ class Basic(commands.Cog):
             embed.add_field(name="금지 부품 사용됨", value=', '.join(error_blacklist))
             berror_blacklist = True
         else:
-            embed.add_field(name="금지 부품 미사용", value="")
+            embed.add_field(name="금지 부품 미사용", value=f"{len(part_list)}부품")
         if len(error_armorthickness) > 0:
             s = ""
             for k, v in error_blacklist:
