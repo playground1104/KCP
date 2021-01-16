@@ -15,7 +15,8 @@ import logging
 import websockets
 from discord.ext import commands
 
-loop = asyncio.get_event_loop()
+if __name__ == '__main__':
+    loop = asyncio.get_event_loop()
 
 
 def get_bot_settings() -> dict:
@@ -25,14 +26,14 @@ def get_bot_settings() -> dict:
     with open('bot_settings.json', 'r', encoding="UTF-8") as f:
         return json.load(f)
 
+if __name__ == '__main__':
+    logger = logging.getLogger('discord')
+    logging.basicConfig(level=logging.INFO)  # DEBUG/INFO/WARNING/ERROR/CRITICAL
+    handler = logging.FileHandler(filename=f'{get_bot_settings()["bot_name"]}.log', encoding='utf-8', mode='w')
+    handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+    logger.addHandler(handler)
 
-logger = logging.getLogger('discord')
-logging.basicConfig(level=logging.INFO)  # DEBUG/INFO/WARNING/ERROR/CRITICAL
-handler = logging.FileHandler(filename=f'{get_bot_settings()["bot_name"]}.log', encoding='utf-8', mode='w')
-handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
-logger.addHandler(handler)
-
-token = "stable_token"
+    token = "stable_token"
 
 if get_bot_settings()["debug"]:
     """
@@ -49,8 +50,8 @@ async def get_prefix(bot, message):
     """
     return commands.when_mentioned_or(*[get_bot_settings()["default_prefix"]])(bot, message)
 
-
-bot = commands.Bot(command_prefix=get_prefix, help_command=None)
+if __name__ == '__main__':
+    bot = commands.Bot(command_prefix=get_prefix, help_command=None)
 
 
 async def is_whitelisted(ctx):
@@ -180,12 +181,12 @@ async def _cog_panel(ctx):
             break
         await msg.remove_reaction(reaction, ctx.author)
 
+if __name__ == '__main__':
+    # Cog를 불러오는 스크립트
+    [bot.load_extension(f"cogs.{x.replace('.py', '')}") for x in os.listdir("./cogs") if x.endswith('.py')]
 
-# Cog를 불러오는 스크립트
-[bot.load_extension(f"cogs.{x.replace('.py', '')}") for x in os.listdir("./cogs") if x.endswith('.py')]
+    # 봇 상태 메시지를 변경하는 코드 준비
+    loop.create_task(change_presence())
 
-# 봇 상태 메시지를 변경하는 코드 준비
-loop.create_task(change_presence())
-
-# 봇 실행
-bot.run(get_bot_settings()[token])
+    # 봇 실행
+    bot.run(get_bot_settings()[token])
