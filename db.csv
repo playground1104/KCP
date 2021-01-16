@@ -184,13 +184,11 @@ B9.Aero.Wing.Procedural.TypeA, 10, 0
 B9.Aero.Wing.Procedural.TypeB, 10, 0
 B9.Aero.Wing.Procedural.TypeC, 10, 0
 bahaAdjustableRail, 10, 0
-bdPilotAI, 10, 0
 baha20mmAmmo, 10, 0
 baha30mmAmmo, 10, 0
 baha50CalAmmo, 10, 0
 BDAcUniversalAmmoBox, 10, 0
 UniversalAmmoBoxBDA, 10, 0
-radarDataReceiver, 10, 0
 bdRadome1, 10, 0
 bdRadome1inline, 10, 0
 bdRadome1snub, 10, 0
