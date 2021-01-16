@@ -69,7 +69,7 @@ class Basic(commands.Cog):
                 return await ctx.send(embed=embed)
         if ap <= 17.1:
             embed = discord.Embed(title="KCP 기체 검수 시스템", color=0x00ff00)
-            embed.add_field(name="문제가 없습니다", value=f"{len(part_list)}개의 부품")
+            embed.add_field(name="문제가 없습니다", value=f"{len(part_list)}부품 {ap}점")
             embed.set_footer(text="오류 제보: Penta#1155")
             return await ctx.send(embed=embed)
         else:
