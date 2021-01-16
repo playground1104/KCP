@@ -70,11 +70,11 @@ class Basic(commands.Cog):
         size_width = float(size_split[0])
         size_height = float(size_split[1])
         size_length = float(size_split[2])
-        berror_size = (size_width < 19.0005) and (size_height < 8.0005) and (size_length < 20.0005)
+        berror_size = (size_width > 19.0005) or (size_height > 8.0005) or (size_length > 20.0005)
         berror_ap = ap > 17.1
         berror_blacklist = False
         berror_armorthickness = False
-        embed = discord.Embed(title="KCP 기체 검수 시스템", color=0x00ff00)
+        embed = discord.Embed(title="KCP 기체 검수 시스템")
         embed.set_footer(text="오류 제보: Penta#1155")
         if len(error_blacklist) > 0:
             embed.add_field(name="금지 부품 사용됨", value=', '.join(error_blacklist))
