@@ -42,16 +42,17 @@ class Basic(commands.Cog):
 
         part_list = []
 
+        error_blacklist = set()
+        error_armorthickness = dict()
+
         for d in c["PART"]:
             e = '_'.join(d["part"].split("_")[:-1])
             part_list.append(e)
             try:
                 f = self.partdb[e]
             except KeyError:
-                embed = discord.Embed(title="KCP 기체 검수 시스템", color=0xff0000)
-                embed.add_field(name="블랙리스트 감지됨", value=e)
-                embed.set_footer(text="오류 제보: Penta#1155")
-                return await ctx.send(embed=embed)
+                error_blacklist.add(e)
+                continue
             ap += f['point']
             g = 0
             try:
@@ -63,20 +64,50 @@ class Basic(commands.Cog):
                     g = int(h["Armor"])
             t = f['armorthickness']
             if g > t:
-                embed = discord.Embed(title="KCP 기체 검수 시스템", color=0xff0000)
-                embed.add_field(name="장갑 두께 변경 감지됨", value=f"{e}: {g} > {t}")
-                embed.set_footer(text="오류 제보: Penta#1155")
-                return await ctx.send(embed=embed)
-        if ap <= 17.1:
-            embed = discord.Embed(title="KCP 기체 검수 시스템", color=0x00ff00)
-            embed.add_field(name="문제가 없습니다", value=f"{len(part_list)}부품 {ap}점")
-            embed.set_footer(text="오류 제보: Penta#1155")
-            return await ctx.send(embed=embed)
+                error_armorthickness[e] = [g, t]
+                #embed.add_field(name="장갑 두께 변경 감지됨", value=f"{e}: {g} > {t}")
+        size_split = c["size"].split(',')
+        size_width = float(size_split[0])
+        size_height = float(size_split[1])
+        size_length = float(size_split[2])
+        berror_size = (size_width < 19.0005) and (size_height < 8.0005) and (size_length < 20.0005)
+        berror_ap = ap > 17.1
+        berror_blacklist = False
+        berror_armorthickness = False
+        embed = discord.Embed(title="KCP 기체 검수 시스템", color=0x00ff00)
+        embed.set_footer(text="오류 제보: Penta#1155")
+        if len(error_blacklist) > 0:
+            embed.add_field(name="금지 부품 사용됨", value=', '.join(error_blacklist))
+            berror_blacklist = True
         else:
-            embed = discord.Embed(title="KCP 기체 검수 시스템", color=0xff0000)
-            embed.add_field(name="무장 포인트 초과", value=f"{ap}점 > 17점")
-            embed.set_footer(text="오류 제보: Penta#1155")
-            return await ctx.send(embed=embed)
+            embed.add_field(name="금지 부품 미사용", value="")
+        if len(error_armorthickness) > 0:
+            s = ""
+            for k, v in error_blacklist:
+                if len(s) != 0:
+                    s = s + ", "
+                s = s + k + ": " + str(v[0]) + " > " + str(v[1])
+            embed.add_field(name="장갑 두께 변경됨", value=s)
+            berror_armorthickness = True
+        else:
+            embed.add_field(name="장갑 두께 정상", value=f"{len(part_list)}부품")
+
+        if berror_ap:
+            embed.add_field(name="무장 점수 초과", value=f"{ap}점")
+        else:
+            embed.add_field(name="무장 점수 정상", value=f"{ap}점")
+
+        if berror_size:
+            embed.add_field(name="크기 초과", value=f"{size_width} x {size_height} x {size_length}")
+        else:
+            embed.add_field(name="크기 정상", value=f"{size_width} x {size_height} x {size_length}")
+
+        if not (berror_ap or berror_armorthickness or berror_blacklist or berror_size):
+            embed.add_field(name="문제가 없습니다", value=f"{len(part_list)}부품")
+            embed.colour = 0x00ff00
+        else:
+            embed.colour = 0xff0000
+        return await ctx.send(embed=embed)
 
     """
     @commands.command(name="check")
