@@ -1,8 +1,23 @@
+import json
 import discord
 import asyncio
 from discord.ext import commands
 import aiohttp
-import main
+
+
+def get_bot_settings() -> dict:
+    """
+    봇 설정 파일을 파이썬 dict로 리턴합니다.
+    """
+    with open('bot_settings.json', 'r', encoding="UTF-8") as f:
+        return json.load(f)
+
+
+async def is_whitelisted(ctx):
+    """
+    Cog 관련 명령어를 봇 소유자나 화이트리스트에 등록된 유저만 사용하게 만드는 코드입니다.
+    """
+    return ctx.author.id in get_bot_settings()["whitelist"]
 
 
 class Git(commands.Cog):
