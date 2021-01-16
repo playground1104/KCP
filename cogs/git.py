@@ -29,7 +29,7 @@ class Git(commands.Cog):
         self.bot = bot
 
     async def cog_check(self, ctx):
-        return await main.is_whitelisted(ctx)
+        return await is_whitelisted(ctx)
 
     @commands.command(name="reload_file")
     async def check_craft(self, ctx: commands.Context, *, arg):
