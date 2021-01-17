@@ -89,7 +89,7 @@ class Basic(commands.Cog):
         berror_armorthickness = False
         berror_tweak = False
         berror_partcount = len(part_list) > 250
-        embed = discord.Embed(title="KCP 기체 검수 시스템")
+        embed = discord.Embed(title="KCP 기체 검수 시스템", description=c["ship"])
         embed.set_footer(text="오류 제보: Penta#1155")
         if berror_partcount:
             embed.add_field(name="부품 수 🔴", value=f"{len(part_list)} > 250")
