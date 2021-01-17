@@ -90,25 +90,25 @@ class Basic(commands.Cog):
         embed = discord.Embed(title="KCP 기체 검수 시스템")
         embed.set_footer(text="오류 제보: Penta#1155")
         if berror_partcount:
-            embed.add_field(name="부품 수 🟥", value=f"{len(part_list)} > 250")
+            embed.add_field(name="부품 수 🔴", value=f"{len(part_list)} > 250")
         else:
-            embed.add_field(name="부품 수 🟩", value=f"{len(part_list)}부품")
+            embed.add_field(name="부품 수 🟢", value=f"{len(part_list)}부품")
 
         if len(error_blacklist) > 0:
-            embed.add_field(name="금지 부품 🟥", value=', '.join(error_blacklist))
+            embed.add_field(name="금지 부품 🔴", value=', '.join(error_blacklist))
             berror_blacklist = True
         else:
-            embed.add_field(name="금지 부품 🟩", value="정상")
+            embed.add_field(name="금지 부품 🟢", value="정상")
         if len(error_armorthickness) > 0:
             s = ""
             for k, v in error_blacklist:
                 if len(s) != 0:
                     s = s + ", "
                 s = s + k + ": " + str(v[0]) + " > " + str(v[1])
-            embed.add_field(name="장갑 두께 🟥", value=s)
+            embed.add_field(name="장갑 두께 🔴", value=s)
             berror_armorthickness = True
         else:
-            embed.add_field(name="장갑 두께 🟩", value="정상")
+            embed.add_field(name="장갑 두께 🟢", value="정상")
 
         if len(error_tweak) > 0:
             s = ""
@@ -120,20 +120,20 @@ class Basic(commands.Cog):
                     s = s + " UT"
                 elif v[1] == "d":
                     s = s + " DT"
-            embed.add_field(name="트윅스케일 🟥", value=s)
+            embed.add_field(name="트윅스케일 🔴", value=s)
             berror_tweak = True
         else:
-            embed.add_field(name="트윅스케일 🟩", value="정상")
+            embed.add_field(name="트윅스케일 🟢", value="정상")
 
         if berror_ap:
-            embed.add_field(name="무장 점수 🟥", value=f" {ap:.1f} > 17")
+            embed.add_field(name="무장 점수 🔴", value=f" {ap:.1f} > 17")
         else:
-            embed.add_field(name="무장 점수 🟩", value=f"{ap:.1f}점")
+            embed.add_field(name="무장 점수 🟢", value=f"{ap:.1f}점")
 
         if berror_size:
-            embed.add_field(name="크기 🟥", value=f"약 {size_width:.2f} x {size_height:.2f} x {size_length:.2f}m")
+            embed.add_field(name="크기 🔴", value=f"약 {size_width:.2f} x {size_height:.2f} x {size_length:.2f}m")
         else:
-            embed.add_field(name="크기 🟩", value=f"약 {size_width:.2f} x {size_height:.2f} x {size_length:.2f}m")
+            embed.add_field(name="크기 🟢", value=f"약 {size_width:.2f} x {size_height:.2f} x {size_length:.2f}m")
 
         if not (berror_ap or berror_armorthickness or berror_blacklist or berror_size or berror_tweak or berror_partcount):
             embed.add_field(name="문제가 없습니다", value=f"{len(part_list)}부품", inline=False)
