@@ -28,7 +28,9 @@ class Basic(commands.Cog):
             try:
                 await ctx.send("30초 안에 기체 파일을 보내주세요.")
                 msg = await self.bot.wait_for("message", timeout=30,
-                                              check=lambda m: m.author.id == ctx.author.id and len(m.attachments) != 0)
+                                              check=lambda m: m.author.id == ctx.author.id and ((len(m.attachments) != 0) or (m.content == "!검수")))
+                if msg.content == "!검수":
+                    return
                 if not msg.attachments[0].filename.endswith(".craft"):
                     return await ctx.send("`.craft` 파일만 올려야 합니다. 다시 명령어를 실행해주세요.")
             except asyncio.TimeoutError:
