@@ -16,7 +16,7 @@ class Basic(commands.Cog):
         self.bot = bot
         with open('db.csv') as f:
             for r in csv.reader(f):
-                self.partdb[r[0]] = {'armorthickness': int(r[1]), 'point': float(r[2])}
+                self.partdb[r[0]] = {'armorthickness': int(r[1]), 'point': float(r[2]), 'tweakoption': str(r[3])}
 
     async def cog_check(self, ctx):
         return ctx.message.channel.id == 681058514797461647 or isinstance(ctx.message.channel, discord.DMChannel)
@@ -44,6 +44,7 @@ class Basic(commands.Cog):
 
         error_blacklist = set()
         error_armorthickness = dict()
+        error_tweak = dict()
 
         for d in c["PART"]:
             e = '_'.join(d["part"].split("_")[:-1])
@@ -62,10 +63,20 @@ class Basic(commands.Cog):
             for h in m:
                 if h["name"] == "HitpointTracker":
                     g = int(h["Armor"])
+                elif h["name"] == "TweakScale":
+                    topt = f['tweakoption']
+                    cs = float(h["currentScale"])
+                    ds = float(h["defaultScale"])
+                    if cs > ds and not ("u" in topt):
+                        error_tweak[e] = [cs, "u"]
+                    elif cs < ds and not ("d" in topt):
+                        error_tweak[e] = [cs, "d"]
+
             t = f['armorthickness']
             if g > t:
                 error_armorthickness[e] = [g, t]
-                #embed.add_field(name="장갑 두께 변경 감지됨", value=f"{e}: {g} > {t}")
+
+
         size_split = c["size"].split(',')
         size_width = float(size_split[0])
         size_height = float(size_split[1])
@@ -74,8 +85,15 @@ class Basic(commands.Cog):
         berror_ap = ap > 17.1
         berror_blacklist = False
         berror_armorthickness = False
+        berror_tweak = False
+        berror_partcount = len(part_list) > 250
         embed = discord.Embed(title="KCP 기체 검수 시스템")
         embed.set_footer(text="오류 제보: Penta#1155")
+        if berror_partcount:
+            embed.add_field(name="부품 수 초과", value=f"{len(part_list)} > 250")
+        else:
+            embed.add_field(name="부품 수 정상", value=f"{len(part_list)}부품")
+
         if len(error_blacklist) > 0:
             embed.add_field(name="금지 부품 사용됨", value=', '.join(error_blacklist))
             berror_blacklist = True
@@ -92,6 +110,21 @@ class Basic(commands.Cog):
         else:
             embed.add_field(name="장갑 두께 정상", value=f"{len(part_list)}부품")
 
+        if len(error_tweak) > 0:
+            s = ""
+            for k, v in error_tweak:
+                if len(s) != 0:
+                    s = s + ", "
+                s = s + k + ": " + str(v[0])
+                if v[1] == "u":
+                    s = s + " UT"
+                elif v[1] == "d":
+                    s = s + " DT"
+            embed.add_field(name="트윅스케일 위반", value=s)
+            berror_tweak = True
+        else:
+            embed.add_field(name="트윅스케일 정상", value=f"{len(part_list)}부품")
+
         if berror_ap:
             embed.add_field(name="무장 점수 초과", value=f"{ap:.1f}점")
         else:
@@ -102,8 +135,8 @@ class Basic(commands.Cog):
         else:
             embed.add_field(name="크기 정상", value=f"약 {size_width:.2f} x {size_height:.2f} x {size_length:.2f}m")
 
-        if not (berror_ap or berror_armorthickness or berror_blacklist or berror_size):
-            embed.add_field(name="문제가 없습니다", value=f"{len(part_list)}부품")
+        if not (berror_ap or berror_armorthickness or berror_blacklist or berror_size or berror_tweak or berror_partcount):
+            embed.add_field(name="문제가 없습니다", value=f"{len(part_list)}부품", inline=False)
             embed.colour = 0x00ff00
         else:
             embed.colour = 0xff0000
