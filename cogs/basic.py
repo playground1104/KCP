@@ -148,16 +148,21 @@ class Basic(commands.Cog):
     async def check_craft(self, ctx: commands.Context):
         msg = ctx.message
         ans = "```부품 수, 금지부품, 장갑두께, 트윅스케일, 무장점수, 크기\n"
+        craftlist = []
         if len(ctx.message.attachments) == 0 or not ctx.message.attachments[0].filename.endswith(".craft"):
-            try:
-                msg = await self.bot.wait_for("message", timeout=30,
-                                              check=lambda m: m.author.id == ctx.author.id and (
-                                                          (len(m.attachments) != 0) or (m.content == "!뭉치검수끝")))
-                if msg.content == "!뭉치검수끝":
+            while True:
+                try:
+                    msg = await self.bot.wait_for("message", timeout=30,
+                                                  check=lambda m: m.author.id == ctx.author.id and (
+                                                              (len(m.attachments) != 0) or (m.content == "!뭉치검수끝")))
+                    for x in msg.attachments:
+                        if x.filename.endswith(".craft"):
+                            craftlist.append(x)
+                    if msg.content == "!뭉치검수끝":
+                        return await ctx.send(ans + "```")
+                except asyncio.TimeoutError:
                     return await ctx.send(ans + "```")
-            except asyncio.TimeoutError:
-                return await ctx.send(ans + "```")
-        for craft in [x for x in msg.attachments if x.filename.endswith(".craft")]:
+        for craft in craftlist:
             craft_content = (await craft.read()).decode("UTF-8")
 
             ap = 0.0
