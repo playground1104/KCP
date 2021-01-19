@@ -147,7 +147,7 @@ class Basic(commands.Cog):
     @commands.command(name="뭉치검수")
     async def check_craft(self, ctx: commands.Context):
         msg = ctx.message
-        ans = "```부품 수, 금지부품, 장갑두께, 트윅스케일, 무장점수, 크기\n"
+        ans = "```부품 수, 금지부품, 장갑두께, 트윅스케일, 무장점수, 크기"
         craftlist = []
         if len(ctx.message.attachments) == 0 or not ctx.message.attachments[0].filename.endswith(".craft"):
             while True:
@@ -159,9 +159,9 @@ class Basic(commands.Cog):
                         if x.filename.endswith(".craft"):
                             craftlist.append(x)
                     if msg.content == "!뭉치검수끝":
-                        return await ctx.send(ans + "```")
+                        break
                 except asyncio.TimeoutError:
-                    return await ctx.send(ans + "```")
+                    break
         for craft in craftlist:
             craft_content = (await craft.read()).decode("UTF-8")
 
@@ -215,7 +215,7 @@ class Basic(commands.Cog):
             berror_armorthickness = False
             berror_tweak = False
             berror_partcount = len(part_list) > 250
-            ans += f"{c['ship']:20}"
+            ans += f"\n{c['ship']:20}"
             if berror_partcount:
                 ans += f"🔴"
             else:
@@ -264,9 +264,10 @@ class Basic(commands.Cog):
 
             if not (
                     berror_ap or berror_armorthickness or berror_blacklist or berror_size or berror_tweak or berror_partcount):
-                ans += f"  🔴\n"
+                ans += f" 🔴"
             else:
-                ans += f"  🟢\n"
+                ans += f" 🟢"
+        return await ctx.send(ans + "```")
 
 
 def setup(bot: commands.Bot):
