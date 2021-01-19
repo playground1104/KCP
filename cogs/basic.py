@@ -152,8 +152,8 @@ class Basic(commands.Cog):
             try:
                 msg = await self.bot.wait_for("message", timeout=30,
                                               check=lambda m: m.author.id == ctx.author.id and (
-                                                          (len(m.attachments) != 0) or (m.content == "!뭉치검수")))
-                if msg.content == "!뭉치검수":
+                                                          (len(m.attachments) != 0) or (m.content == "!뭉치검수끝")))
+                if msg.content == "!뭉치검수끝":
                     return await ctx.send(ans + "```")
             except asyncio.TimeoutError:
                 return await ctx.send(ans + "```")
