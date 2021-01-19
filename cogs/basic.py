@@ -149,8 +149,8 @@ class Basic(commands.Cog):
         msg = ctx.message
         ans = "```부품 수, 금지부품, 장갑두께, 트윅스케일, 무장점수, 크기"
         craftlist = [x for x in msg.attachments if x.filename.endswith(".craft")]
+        await ctx.send("30초 안에 기체 파일들을 보내주세요.")
         while True:
-            await ctx.send("30초 안에 기체 파일들을 보내주세요.")
             try:
                 msg = await self.bot.wait_for("message", timeout=30,
                                               check=lambda m: m.author.id == ctx.author.id and (
@@ -158,7 +158,6 @@ class Basic(commands.Cog):
                 for x in msg.attachments:
                     if x.filename.endswith(".craft"):
                         craftlist.append(x)
-                        await ctx.send("접수")
                 if msg.content == "!뭉치검수끝":
                     break
             except asyncio.TimeoutError:
