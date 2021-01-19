@@ -148,20 +148,21 @@ class Basic(commands.Cog):
     async def check_craft(self, ctx: commands.Context):
         msg = ctx.message
         ans = "```부품 수, 금지부품, 장갑두께, 트윅스케일, 무장점수, 크기"
-        craftlist = []
-        if len(ctx.message.attachments) == 0 or not ctx.message.attachments[0].filename.endswith(".craft"):
-            while True:
-                try:
-                    msg = await self.bot.wait_for("message", timeout=30,
-                                                  check=lambda m: m.author.id == ctx.author.id and (
-                                                              (len(m.attachments) != 0) or (m.content == "!뭉치검수끝")))
-                    for x in msg.attachments:
-                        if x.filename.endswith(".craft"):
-                            craftlist.append(x)
-                    if msg.content == "!뭉치검수끝":
-                        break
-                except asyncio.TimeoutError:
+        craftlist = [x for x in msg.attachments if x.filename.endswith(".craft")]
+        while True:
+            await ctx.send("30초 안에 기체 파일들을 보내주세요.")
+            try:
+                msg = await self.bot.wait_for("message", timeout=30,
+                                              check=lambda m: m.author.id == ctx.author.id and (
+                                                          (len(m.attachments) != 0) or (m.content == "!뭉치검수끝")))
+                for x in msg.attachments:
+                    if x.filename.endswith(".craft"):
+                        craftlist.append(x)
+                        await ctx.send("접수")
+                if msg.content == "!뭉치검수끝":
                     break
+            except asyncio.TimeoutError:
+                break
         for craft in craftlist:
             craft_content = (await craft.read()).decode("UTF-8")
 
@@ -264,9 +265,9 @@ class Basic(commands.Cog):
 
             if not (
                     berror_ap or berror_armorthickness or berror_blacklist or berror_size or berror_tweak or berror_partcount):
-                ans += f" 🔴"
-            else:
                 ans += f" 🟢"
+            else:
+                ans += f" 🔴"
         return await ctx.send(ans + "```")
 
 
