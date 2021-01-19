@@ -19,7 +19,7 @@ class Basic(commands.Cog):
                 self.partdb[r[0]] = {'armorthickness': int(r[1]), 'point': float(r[2]), 'tweakoption': str(r[3])}
 
     async def cog_check(self, ctx):
-        return ctx.message.channel.id == 681058514797461647 or isinstance(ctx.message.channel, discord.DMChannel)
+        return ctx.message.channel.id == 707591545863536680 or isinstance(ctx.message.channel, discord.DMChannel)
 
     @commands.command(name="검수")
     async def check_craft(self, ctx: commands.Context):
