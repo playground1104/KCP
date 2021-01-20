@@ -145,7 +145,7 @@ class Basic(commands.Cog):
         return await ctx.send(embed=embed)
 
     @commands.command(name="뭉치검수")
-    async def check_craft(self, ctx: commands.Context):
+    async def check_multi_craft(self, ctx: commands.Context):
         msg = ctx.message
         ans = "```부품 수, 금지부품, 장갑두께, 트윅스케일, 무장점수, 크기"
         craftlist = [x for x in msg.attachments if x.filename.endswith(".craft")]
