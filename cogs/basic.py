@@ -38,7 +38,7 @@ class Basic(commands.Cog):
         craft = [x for x in msg.attachments if x.filename.endswith(".craft")][0]
         craft_content = (await craft.read()).decode("UTF-8")
 
-        ap = 0.0
+        ap = 0
 
         c = kspconfig.loadl(craft_content.split('\n'))
 
@@ -84,7 +84,7 @@ class Basic(commands.Cog):
         size_height = float(size_split[1])
         size_length = float(size_split[2])
         berror_size = (size_width > 19.0005) or (size_height > 8.0005) or (size_length > 20.0005)
-        berror_ap = ap > 17.1
+        berror_ap = ap > 34
         berror_blacklist = False
         berror_armorthickness = False
         berror_tweak = False
@@ -128,9 +128,9 @@ class Basic(commands.Cog):
             embed.add_field(name="트윅스케일 🟢", value="정상")
 
         if berror_ap:
-            embed.add_field(name="무장 점수 🔴", value=f" {ap:.1f} > 17")
+            embed.add_field(name="무장 점수 🔴", value=f" {ap} > 34")
         else:
-            embed.add_field(name="무장 점수 🟢", value=f"{ap:.1f}점")
+            embed.add_field(name="무장 점수 🟢", value=f"{ap}점")
 
         if berror_size:
             embed.add_field(name="크기 🔴", value=f"약 {size_width:.2f} x {size_height:.2f} x {size_length:.2f}m")
@@ -165,7 +165,7 @@ class Basic(commands.Cog):
         for craft in craftlist:
             craft_content = (await craft.read()).decode("UTF-8")
 
-            ap = 0.0
+            ap = 0
 
             c = kspconfig.loadl(craft_content.split('\n'))
 
@@ -210,7 +210,7 @@ class Basic(commands.Cog):
             size_height = float(size_split[1])
             size_length = float(size_split[2])
             berror_size = (size_width > 19.0005) or (size_height > 8.0005) or (size_length > 20.0005)
-            berror_ap = ap > 17.1
+            berror_ap = ap > 34
             berror_blacklist = False
             berror_armorthickness = False
             berror_tweak = False
