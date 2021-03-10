@@ -4,6 +4,8 @@ from discord.ext import commands
 from kspconfig import kspconfig
 import csv
 
+from cogs import lang
+
 
 class Basic(commands.Cog):
     """
@@ -21,20 +23,20 @@ class Basic(commands.Cog):
     async def cog_check(self, ctx):
         return ctx.message.channel.id == 707591545863536680 or isinstance(ctx.message.channel, discord.DMChannel)
 
-    @commands.command(name="검수")
-    async def check_craft(self, ctx: commands.Context):
+    async def check_craft(self, ctx: commands.Context, langs: str):
         msg = ctx.message
         if len(ctx.message.attachments) == 0 or not ctx.message.attachments[0].filename.endswith(".craft"):
             try:
-                await ctx.send("30초 안에 기체 파일을 보내주세요.")
+                await ctx.send(lang.Lang.sfmt(self.bot, langs, "basic_sendin30").format())
                 msg = await self.bot.wait_for("message", timeout=30,
-                                              check=lambda m: m.author.id == ctx.author.id and ((len(m.attachments) != 0) or (m.content == "!검수")))
+                                              check=lambda m: m.author.id == ctx.author.id and (
+                                                          len(m.attachments) != 0))
                 if msg.content == "!검수":
                     return
                 if not msg.attachments[0].filename.endswith(".craft"):
-                    return await ctx.send("`.craft` 파일만 올려야 합니다. 다시 명령어를 실행해주세요.")
+                    return await ctx.send(lang.Lang.sfmt(self.bot, langs, "basic_onlycraft").format())
             except asyncio.TimeoutError:
-                return await ctx.send("시간 만료, 다시 명령어를 실행해주세요.")
+                return await ctx.send(lang.Lang.sfmt(self.bot, langs, "basic_timeout").format())
         craft = [x for x in msg.attachments if x.filename.endswith(".craft")][0]
         craft_content = (await craft.read()).decode("UTF-8")
 
@@ -78,7 +80,6 @@ class Basic(commands.Cog):
             if g > t:
                 error_armorthickness[e] = [g, t]
 
-
         size_split = c["size"].split(',')
         size_width = float(size_split[0])
         size_height = float(size_split[1])
@@ -89,28 +90,35 @@ class Basic(commands.Cog):
         berror_armorthickness = False
         berror_tweak = False
         berror_partcount = len(part_list) > 250
-        embed = discord.Embed(title="KCP 기체 검수 시스템", description=c["ship"])
-        embed.set_footer(text="오류 제보: Penta#1155")
+        embed = discord.Embed(title=lang.Lang.sfmt(self.bot, langs, "basic_embed_title").format(), description=c["ship"])
+        embed.set_footer(text=lang.Lang.sfmt(self.bot, langs, "basic_embed_footer").format())
         if berror_partcount:
-            embed.add_field(name="부품 수 🔴", value=f"{len(part_list)} > 250")
+            embed.add_field(name=lang.Lang.sfmt(self.bot, langs, "basic_embed_partcount_F_name").format(),
+                            value=lang.Lang.sfmt(self.bot, langs, "basic_embed_partcount_F_value").format(len(part_list)))
         else:
-            embed.add_field(name="부품 수 🟢", value=f"{len(part_list)}부품")
+            embed.add_field(name=lang.Lang.sfmt(self.bot, langs, "basic_embed_partcount_P_name").format(),
+                            value=lang.Lang.sfmt(self.bot, langs, "basic_embed_partcount_P_value").format(len(part_list)))
 
         if len(error_blacklist) > 0:
-            embed.add_field(name="금지 부품 🔴", value=', '.join(error_blacklist))
+            embed.add_field(name=lang.Lang.sfmt(self.bot, langs, "basic_embed_banpart_F_name").format(),
+                            value=lang.Lang.sfmt(self.bot, langs, "basic_embed_banpart_F_value").format(', '.join(error_blacklist)))
             berror_blacklist = True
         else:
-            embed.add_field(name="금지 부품 🟢", value="정상")
+            embed.add_field(name=lang.Lang.sfmt(self.bot, langs, "basic_embed_banpart_P_name").format(),
+                            value=lang.Lang.sfmt(self.bot, langs, "basic_embed_banpart_P_value").format())
+
         if len(error_armorthickness) > 0:
             s = ""
             for k, v in error_blacklist:
                 if len(s) != 0:
                     s = s + ", "
                 s = s + k + ": " + str(v[0]) + " > " + str(v[1])
-            embed.add_field(name="장갑 두께 🔴", value=s)
+            embed.add_field(name=lang.Lang.sfmt(self.bot, langs, "basic_embed_armorthickness_F_name").format(),
+                            value=lang.Lang.sfmt(self.bot, langs, "basic_embed_armorthickness_F_value").format(s))
             berror_armorthickness = True
         else:
-            embed.add_field(name="장갑 두께 🟢", value="정상")
+            embed.add_field(name=lang.Lang.sfmt(self.bot, langs, "basic_embed_armorthickness_P_name").format(),
+                            value=lang.Lang.sfmt(self.bot, langs, "basic_embed_armorthickness_P_value").format())
 
         if len(error_tweak) > 0:
             s = ""
@@ -122,27 +130,45 @@ class Basic(commands.Cog):
                     s = s + " UT"
                 elif v[1] == "d":
                     s = s + " DT"
-            embed.add_field(name="트윅스케일 🔴", value=s)
+            embed.add_field(name=lang.Lang.sfmt(self.bot, langs, "basic_embed_tweakscale_F_name").format(),
+                            value=lang.Lang.sfmt(self.bot, langs, "basic_embed_tweakscale_F_value").format(s))
             berror_tweak = True
         else:
-            embed.add_field(name="트윅스케일 🟢", value="정상")
+            embed.add_field(name=lang.Lang.sfmt(self.bot, langs, "basic_embed_tweakscale_P_name").format(),
+                            value=lang.Lang.sfmt(self.bot, langs, "basic_embed_tweakscale_P_value").format())
 
         if berror_ap:
-            embed.add_field(name="무장 점수 🔴", value=f" {ap} > 34")
+            embed.add_field(name=lang.Lang.sfmt(self.bot, langs, "basic_embed_ap_F_name").format(),
+                            value=lang.Lang.sfmt(self.bot, langs, "basic_embed_ap_F_value").format(ap))
         else:
-            embed.add_field(name="무장 점수 🟢", value=f"{ap}점")
+            embed.add_field(name=lang.Lang.sfmt(self.bot, langs, "basic_embed_ap_P_name").format(),
+                            value=lang.Lang.sfmt(self.bot, langs, "basic_embed_ap_P_value").format(ap))
 
         if berror_size:
-            embed.add_field(name="크기 🔴", value=f"약 {size_width:.2f} x {size_height:.2f} x {size_length:.2f}m")
+            embed.add_field(name=lang.Lang.sfmt(self.bot, langs, "basic_embed_size_F_name").format(),
+                            value=lang.Lang.sfmt(self.bot, langs, "basic_embed_size_F_value").format(size_width, size_height,
+                                                                                     size_length))
         else:
-            embed.add_field(name="크기 🟢", value=f"약 {size_width:.2f} x {size_height:.2f} x {size_length:.2f}m")
+            embed.add_field(name=lang.Lang.sfmt(self.bot, langs, "basic_embed_size_P_name").format(),
+                            value=lang.Lang.sfmt(self.bot, langs, "basic_embed_size_P_value").format(size_width, size_height,
+                                                                                     size_length))
 
-        if not (berror_ap or berror_armorthickness or berror_blacklist or berror_size or berror_tweak or berror_partcount):
-            embed.add_field(name="문제가 없습니다", value=f"{len(part_list)}부품", inline=False)
+        if not (
+                berror_ap or berror_armorthickness or berror_blacklist or berror_size or berror_tweak or berror_partcount):
+            embed.add_field(name=lang.Lang.sfmt(self.bot, langs, "basic_embed_P_name").format(),
+                            value=lang.Lang.sfmt(self.bot, langs, "basic_embed_P_value").format(len(part_list)), inline=False)
             embed.colour = 0x00ff00
         else:
             embed.colour = 0xff0000
         return await ctx.send(embed=embed)
+
+    @commands.command(name="검수")
+    async def check_craft_ko_KR(self, ctx: commands.Context):
+        await self.check_craft(ctx, "ko_KR")
+
+    @commands.command(name="check")
+    async def check_craft_en_US(self, ctx: commands.Context):
+        await self.check_craft(ctx, "en_US")
 
     @commands.command(name="뭉치검수")
     async def check_multi_craft(self, ctx: commands.Context):
@@ -154,7 +180,7 @@ class Basic(commands.Cog):
             try:
                 msg = await self.bot.wait_for("message", timeout=30,
                                               check=lambda m: m.author.id == ctx.author.id and (
-                                                          (len(m.attachments) != 0) or (m.content == "!뭉치검수끝")))
+                                                      (len(m.attachments) != 0) or (m.content == "!뭉치검수끝")))
                 for x in msg.attachments:
                     if x.filename.endswith(".craft"):
                         craftlist.append(x)
