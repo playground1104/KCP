@@ -43,7 +43,7 @@ class Lang(commands.Cog):
         self.bot = bot
         for x in os.listdir("lang"):
             if x.endswith('.json'):
-                self.load(x, os.path.split(x)[-1].replace('.json', ''))
+                self.load('lang/'+x, os.path.split(x)[-1].replace('.json', ''))
 
 
 def setup(bot: commands.Bot):
