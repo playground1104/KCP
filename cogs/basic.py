@@ -100,12 +100,12 @@ class Basic(commands.Cog):
                             value=lang.Lang.sfmt(self.bot, langs, "basic_embed_partcount_P_value").format(len(part_list)))
 
         if len(error_blacklist) > 0:
-            embed.add_field(name=lang.Lang.sfmt(self.bot, langs, "basic_embed_banpart_F_name").format(),
-                            value=lang.Lang.sfmt(self.bot, langs, "basic_embed_banpart_F_value").format(', '.join(error_blacklist)))
+            embed.add_field(name=lang.Lang.sfmt(self.bot, langs, "basic_embed_partban_F_name").format(),
+                            value=lang.Lang.sfmt(self.bot, langs, "basic_embed_partban_F_value").format(', '.join(error_blacklist)))
             berror_blacklist = True
         else:
-            embed.add_field(name=lang.Lang.sfmt(self.bot, langs, "basic_embed_banpart_P_name").format(),
-                            value=lang.Lang.sfmt(self.bot, langs, "basic_embed_banpart_P_value").format())
+            embed.add_field(name=lang.Lang.sfmt(self.bot, langs, "basic_embed_partban_P_name").format(),
+                            value=lang.Lang.sfmt(self.bot, langs, "basic_embed_partban_P_value").format())
 
         if len(error_armorthickness) > 0:
             s = ""
