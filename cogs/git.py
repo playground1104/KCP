@@ -33,7 +33,7 @@ class Git(commands.Cog):
         return await is_whitelisted(ctx)
 
     @commands.command(name="reload_file")
-    async def check_craft(self, ctx: commands.Context, *, arg):
+    async def reload_file(self, ctx: commands.Context, *, arg):
         async with aiohttp.ClientSession() as session:
             async with session.get('https://raw.githubusercontent.com/eunwoo1104/KCP/master/' + arg) as response:
                 if response.status == 200 or response.status == 304:
@@ -45,7 +45,7 @@ class Git(commands.Cog):
                     await ctx.send(f"X, CODE {response.status}")
     
     @commands.command(name="make_dir")
-    async def check_craft(self, ctx: commands.Context, *, arg):
+    async def make_dir(self, ctx: commands.Context, *, arg):
         if not os.path.exists(directory):
             os.makedirs(directory)
             await ctx.send(f"O")
