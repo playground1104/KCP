@@ -3,6 +3,7 @@ import discord
 import asyncio
 from discord.ext import commands
 import aiohttp
+import os
 
 
 def get_bot_settings() -> dict:
@@ -42,7 +43,14 @@ class Git(commands.Cog):
                     await ctx.send(f"O, CODE {response.status} LEN {len(data)}")
                 else:
                     await ctx.send(f"X, CODE {response.status}")
-
+    
+    @commands.command(name="make_dir")
+    async def check_craft(self, ctx: commands.Context, *, arg):
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+            await ctx.send(f"O")
+        else:
+            await ctx.send(f"X, EXISTS")
 
 def setup(bot: commands.Bot):
     bot.add_cog(Git(bot))
