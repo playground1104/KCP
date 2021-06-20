@@ -12,7 +12,6 @@ import discord
 import json
 import os
 import logging
-import websockets
 from discord.ext import commands
 
 loop = asyncio.get_event_loop()
@@ -77,7 +76,7 @@ async def change_presence():
             try:
                 await bot.change_presence(activity=discord.Game(x))
                 await asyncio.sleep(sleep_time)
-            except (asyncio.streams.IncompleteReadError, discord.ConnectionClosed, websockets.exceptions.ConnectionClosedError):
+            except (asyncio.streams.IncompleteReadError, discord.ConnectionClosed):
                 logger.warning(f"Failed changing presence. Skipping this string: {x}")
                 await asyncio.sleep(sleep_time)
             except Exception as ex:
