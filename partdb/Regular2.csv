@@ -429,6 +429,11 @@ dockingPortLateral,10,0,ud
 dockingPort3,10,0,ud
 dockingPort1,10,0,ud
 dockingPortLarge,10,0,ud
+flagPartFlat,10,0,ud
+flagPartSize0,10,0,ud
+flagPartSize1,10,0,ud
+flagPartSize2,10,0,ud
+flagPartSize3,10,0,ud
 GrapplingDevice,10,0,ud
 ladder1,10,0,ud
 telescopicLadder,10,0,ud
@@ -453,8 +458,6 @@ parachuteLarge,10,0,ud
 parachuteRadial,10,0,ud
 parachuteDrogue,10,0,ud
 stackPoint1,10,0,ud
-RCSBlock,10,0,ud
-RCSBlock.v2,10,0,ud
 RelayAntenna100,10,0,ud
 RelayAntenna5,10,0,ud
 RelayAntenna50,10,0,ud
