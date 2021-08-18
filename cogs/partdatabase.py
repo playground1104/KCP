@@ -35,7 +35,7 @@ class PartDB(commands.Cog):
         self.reload()
 
     def reload(self):
-        for x in self.seasondict.keys()[:]:
+        for x in list(self.seasondict.keys())[:]:
             self.unload(x)
         for x in os.listdir("partdb"):
             if x.endswith('.csv'):
