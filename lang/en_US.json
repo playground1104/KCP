@@ -3,7 +3,7 @@
   "basic_onlycraft:": "You can upload `.craft` file only. Please type the command again.",
   "basic_timeout": "Time out. Please type the command again.",
   "basic_embed_title": "KCP Craft Analyzing System",
-  "basic_embed_footer": "Bug report: Penta#1155",
+  "basic_embed_footer": "Bug report: cart324#7199",
   "basic_embed_partcount_F_name": "Parts count 🔴",
   "basic_embed_partcount_F_value": "{0} > 250",
   "basic_embed_partcount_P_name": "Parts count 🟢",
