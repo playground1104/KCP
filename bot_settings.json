@@ -4,7 +4,7 @@
     "canary_token": "",
     "default_prefix": "!",
     "debug": false,
-    "whitelist": [288302173912170497, 621575268250943490, 292275669008646154],
+    "whitelist": [288302173912170497, 621575268250943490, 292275669008646154, 344384179552780289],
     "presence": ["KCP"],
     "default_season": "Regular2"
 }
