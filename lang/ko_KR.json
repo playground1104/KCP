@@ -3,7 +3,7 @@
   "basic_onlycraft:": "`.craft` 파일만 올려야 합니다. 다시 명령어를 실행해 주세요.",
   "basic_timeout": "다시 명령어를 입력해 주세요.",
   "basic_embed_title": "KCP 기체 검수 시스템",
-  "basic_embed_footer": "오류 제보: Penta#1155",
+  "basic_embed_footer": "오류 제보: cart324#7199",
   "basic_embed_partcount_F_name": "부품 수 🔴",
   "basic_embed_partcount_F_value": "{0} > 250",
   "basic_embed_partcount_P_name": "부품 수 🟢",
