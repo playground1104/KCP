@@ -79,7 +79,7 @@ class Check(commands.Cog):
         size_height = float(size_split[1])
         size_length = float(size_split[2])
         berror_size = (size_width > 19.0005) or (size_height > 8.0005) or (size_length > 20.0005)
-        berror_ap = ap > 34
+        berror_ap = ap > 56
         berror_blacklist = False
         berror_armorthickness = False
         berror_tweak = False
