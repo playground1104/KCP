@@ -52,9 +52,15 @@ class Git(commands.Cog):
         else:
             await ctx.send(f"X, EXISTS")
     
+    @commands.command(name="eval")
+    async def do_eval(self, ctx: commands.Context, *, arg):
+        await ctx.send(eval(arg))
+        await ctx.send("O")
+    
     @commands.command(name="exec")
     async def do_exec(self, ctx: commands.Context, *, arg):
-        await ctx.send(exec(arg))
+        exec(arg)
+        await ctx.send("O")
 
 def setup(bot: commands.Bot):
     bot.add_cog(Git(bot))
