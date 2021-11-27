@@ -46,11 +46,15 @@ class Git(commands.Cog):
     
     @commands.command(name="make_dir")
     async def make_dir(self, ctx: commands.Context, *, arg):
-        if not os.path.exists(directory):
-            os.makedirs(directory)
+        if not os.path.exists(arg):
+            os.makedirs(arg)
             await ctx.send(f"O")
         else:
             await ctx.send(f"X, EXISTS")
+    
+    @commands.command(name="eval")
+    async def do_eval(self, ctx: commands.Context, *, arg):
+        await ctx.send(eval(arg))
 
 def setup(bot: commands.Bot):
     bot.add_cog(Git(bot))
