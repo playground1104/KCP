@@ -304,6 +304,10 @@ solarPanels2,10,0,ud
 solarPanels4,10,0,ud
 solarPanels1,10,0,ud
 solarPanels3,10,0,ud
+solarPanelOX10C,10,0,ud
+solarPanelSP10C,10,0,ud
+solarPanelOX10L,10,0,ud
+solarPanelSP10L,10,0,ud
 largeSolarPanel,10,0,ud
 solarPanels5,10,0,ud
 rtg,10,0,ud
@@ -471,7 +475,9 @@ ServiceBay.250,10,0,ud
 ServiceBay.125.v2,10,0,ud
 ServiceBay.250.v2,10,0,ud
 spotLight1,10,0,ud
+spotLight1_v2,10,0,ud
 spotLight2,10,0,ud
+spotLight2_v2,10,0,ud
 stackBiCoupler,10,0,ud
 stackBiCoupler.v2,10,0,ud
 stackQuadCoupler,10,0,ud
@@ -487,3 +493,5 @@ roverWheel1,10,0,ud
 roverWheel2,10,0,ud
 wheelMed,10,0,ud
 roverWheel3,10,0,ud
+smallClaw,10,0,ud
+
