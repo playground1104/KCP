@@ -103,7 +103,6 @@ herculescockpit,10,0,ud
 hipcockpit,10,0,ud
 hueycockpit,10,0,ud
 mk1DroneCore,10,0,ud
-mk1SasModule,10,0,ud
 oh6cockpit,10,0,ud
 oldfightercockpit,10,0,ud
 x1cockpit,10,0,ud
@@ -262,7 +261,6 @@ cupola,10,0,ud
 seatExternalCmd,10,0,ud
 crewCabin,10,0,ud
 advSasModule,10,0,ud
-sasModule,10,0,ud
 mk1-3pod,10,0,ud
 Mark1Cockpit,10,0,ud
 MK1CrewCabin,10,0,ud
