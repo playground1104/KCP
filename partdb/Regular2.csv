@@ -186,6 +186,7 @@ B9.Aero.Wing.Procedural.TypeB,10,0,ud
 B9.Aero.Wing.Procedural.TypeC,10,0,ud
 bahaAdjustableRail,10,0,ud
 bdPilotAI,10,0,ud
+bdVTOLAI,10,0,ud
 baha20mmAmmo,10,0,ud
 baha30mmAmmo,10,0,ud
 baha50CalAmmo,10,0,ud
@@ -196,7 +197,7 @@ bdRadome1,10,0,ud
 bdRadome1inline,10,0,ud
 bdRadome1snub,10,0,ud
 bdRotBombBay,10,0,ud
-missileController,10,0,ud
+bdMissileBay,10,0,ud
 noseCone,10,0,ud
 airbrake1,10,0,ud
 airScoop,10,0,ud
@@ -494,3 +495,4 @@ roverWheel2,10,0,ud
 wheelMed,10,0,ud
 roverWheel3,10,0,ud
 smallClaw,10,0,ud
+mk1opencockpit_RP_type2,10,0,ud
